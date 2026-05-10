@@ -1,0 +1,47 @@
+name: ai_unimind
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.8
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  firebase_core: ^4.7.0
+  firebase_auth: ^6.2.0
+  cloud_firestore: ^6.2.0
+  google_sign_in: ^5.4.0
+  shared_preferences: ^2.5.5
+  intl: ^0.20.2
+  google_generative_ai: ^0.4.0
+  image_picker: ^1.1.2
+  provider: ^6.1.2
+  http: ^1.2.0 
+  fl_chart: ^0.68.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/logo.png
+    - assets/images/focus.png
+    - assets/images/wellness_bg.png
+    - assets/images/focus1.png
+    - assets/images/energy.png
+    - assets/images/music.png
+    - assets/images/breathe_deep.png
+    - assets/images/exhale.png
+    - assets/images/rain.png
+    - assets/images/unplug.png
+    - assets/images/water.png
+    - assets/images/spoon_pills.png
+    - assets/images/yoga_pose.png
