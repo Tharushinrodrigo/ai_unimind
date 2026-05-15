@@ -1,22 +1,28 @@
-name: Flutter CI
+name: Flutter CI Pipeline
 
 on:
   push:
     branches:
       - main
-      - update-code
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: subosito/flutter-action@v2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: stable
+          channel: stable
 
-      - run: flutter pub get
-      - run: flutter analyze
-     
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Analyze project
+        run: flutter analyze
