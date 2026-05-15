@@ -20,7 +20,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
   bool isLoading = false;
 
   final String apiKey =
-      "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";
+      " API key";
 
   final String model = "openai/gpt-oss-20b:free";
 
