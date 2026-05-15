@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_backend.dart'; 
 import 'signup_frontend.dart'; 
-import 'forgotpassword_frontend.dart'; // දැන් මේක පාවිච්චි කරන නිසා warning එක නැති වෙයි
+import 'forgotpassword_frontend.dart'; 
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -58,12 +58,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               
-              // Forgot Password Link (මෙතනදී තමයි අර import එක පාවිච්චි වෙන්නේ)
+              // Forgot Password Link
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    // Navigator එක පාවිච්චි කළාම අර කහ ඉර (Warning) මැකිලා යනවා
+                    
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPasswordPage()));
                   },
                   child: const Text("Forgot password?", style: TextStyle(color: Colors.black54)),

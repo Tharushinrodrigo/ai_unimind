@@ -1,44 +1,101 @@
-
 class FinanceBackend {
-  // මූලික දත්ත
-  double salary = 85000.0;
-  double savingsGoal = 20000.0;
-  
-  // වියදම් ලැයිස්තුව (Monthly Expenses)
-  Map<String, double> monthlyExpenses = {
-    "Boarding Fees": 15000.0,
-    "Food & Drinks": 12000.0,
-    "Transport": 5000.0,
-    "Internet & Mobile": 2500.0,
-  };
-
-  // සතිපතා බජට් එක (Weekly Budget)
-  Map<String, double> weeklyBudget = {
-    "Week 01": 5000.0,
-    "Week 02": 5000.0,
-    "Week 03": 5000.0,
-    "Week 04": 5000.0,
-  };
-
-  double spentTotal = 0;
+  // =========================
+  // CORE FINANCE DATA
+  // =========================
+  double salary = 0;
   double budgetTotal = 0;
-  String aiSuggestion = "You've saved 15% more than last month. Keep it up!";
+  double spentTotal = 0;
 
-  // සියලුම එකතුවන් ගණනය කිරීම
+  double savingsGoal = 0;
+
+  // Expense list (name -> amount)
+  Map<String, double> monthlyExpenses = {
+    "Food": 0,
+    "Transport": 0,
+    "Bills": 0,
+  };
+
+  // Weekly budget (editable)
+  Map<String, double> weeklyBudget = {
+    "Week 1": 0,
+    "Week 2": 0,
+    "Week 3": 0,
+    "Week 4": 0,
+  };
+
+  // AI suggestion text
+  String aiSuggestion = "Keep tracking your expenses consistently.";
+
+  // =========================
+  // CALCULATION ENGINE
+  // =========================
   void calculateTotals() {
-    // වියදම් එකතුව
-    spentTotal = monthlyExpenses.values.fold(0, (sum, item) => sum + item);
-    
-    // බජට් එකතුව
-    budgetTotal = weeklyBudget.values.fold(0, (sum, item) => sum + item);
-    
-    // AI උපදෙස් යාවත්කාලීන කිරීම (සරලව)
-    if (spentTotal > salary) {
-      aiSuggestion = "Warning: Your expenses exceed your salary! Try to cut down.";
-    } else if (spentTotal > (salary * 0.8)) {
-      aiSuggestion = "You are close to your limit. Watch your 'Food & Drinks' expenses.";
+    // 1. Calculate spent total from expenses
+    spentTotal = monthlyExpenses.values.fold(0, (a, b) => a + b);
+
+    // 2. Auto budget total from weekly budget
+    budgetTotal = weeklyBudget.values.fold(0, (a, b) => a + b);
+
+    // 3. Update AI suggestion
+    _generateSuggestion();
+  }
+
+  // =========================
+  // SIMPLE AI LOGIC
+  // =========================
+  void _generateSuggestion() {
+    double remaining = salary - spentTotal;
+
+    if (salary <= 0) {
+      aiSuggestion = "Set your salary to start tracking finances.";
+    } else if (spentTotal > salary) {
+      aiSuggestion = "⚠ You are overspending! Reduce unnecessary expenses.";
+    } else if (remaining < salary * 0.2) {
+      aiSuggestion = "Be careful! Low savings this month.";
     } else {
-      aiSuggestion = "Great job! You are managing your finances well this month.";
+      aiSuggestion = "Good job! You are managing your money well 👍";
     }
+  }
+
+  // =========================
+  // ADD EXPENSE
+  // =========================
+  void addExpense(String name, double amount) {
+    monthlyExpenses[name] = amount;
+    calculateTotals();
+  }
+
+  // =========================
+  // DELETE EXPENSE
+  // =========================
+  void deleteExpense(String name) {
+    monthlyExpenses.remove(name);
+    calculateTotals();
+  }
+
+  // =========================
+  // UPDATE EXPENSE
+  // =========================
+  void updateExpense(String name, double amount) {
+    if (monthlyExpenses.containsKey(name)) {
+      monthlyExpenses[name] = amount;
+      calculateTotals();
+    }
+  }
+
+  // =========================
+  // UPDATE SALARY
+  // =========================
+  void updateSalary(double value) {
+    salary = value;
+    calculateTotals();
+  }
+
+  // =========================
+  // UPDATE BUDGET ITEM
+  // =========================
+  void updateWeeklyBudget(String key, double value) {
+    weeklyBudget[key] = value;
+    calculateTotals();
   }
 }

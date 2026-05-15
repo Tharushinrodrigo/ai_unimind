@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'forgotpassword_backend.dart'; // Backend එක import කරන්න
+import 'forgotpassword_backend.dart'; 
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -21,7 +21,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFB8C6E3), Color(0xFFE5B2CA)], // Figma gradient
+            colors: [Color(0xFFB8C6E3), Color(0xFFE5B2CA)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),

@@ -8,10 +8,10 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  // Setup pages වලින් ලැබෙන දත්ත මෙහි ගබඩා වේ
+  
   String firstName = "Tharushi";
   String lastName = "Rodrigo";
-  String userEmail = "tharushi77@gmail.com";
+  String userEmail = "tharushinavodya851@gmail.com";
   String userPassword = "password123";
   int age = 22;
 
@@ -38,7 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     IconButton(
                       icon: const Icon(Icons.arrow_back, size: 30),
                       onPressed: () {
-                        // Focus Page එකට යාම
+                        
                         Navigator.pop(context); 
                       },
                     ),
@@ -80,7 +80,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   Text("$firstName $lastName", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                                   Text(userEmail, style: const TextStyle(color: Colors.black54)),
                                   const SizedBox(height: 5),
-                                  // My Preferences කොටසේ Age එක පෙන්වීම
+                                  
                                   Text("My Preferences: Age $age", style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.blueGrey)),
                                 ],
                               ),
@@ -109,7 +109,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  // Edit Profile Page එකට ගොස් දත්ත රැගෙන ඒම
+  
   void _navigateToEditProfile() async {
     final result = await Navigator.push(
       context,

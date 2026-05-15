@@ -14,18 +14,18 @@ class _CommunityForumPageState extends State<CommunityForumPage> {
   final TextEditingController _postController = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // --- Backend Function: අලුත් Post එකක් Database එකට Save කිරීම ---
+ 
   Future<void> _addNewPost() async {
     if (_postController.text.trim().isNotEmpty) {
       String content = _postController.text.trim();
       String categoryToSave = selectedCategory == "All" ? "Study" : selectedCategory;
       
-      _postController.clear(); // TextField එක clear කිරීම
+      _postController.clear(); 
 
       try {
         await _firestore.collection('forum_posts').add({
-          "user": "Tharushi (You)", // මෙතනට පස්සේ Auth නම ගන්න පුළුවන්
-          "time": FieldValue.serverTimestamp(), // Backend time එක ගන්න
+          "user": "Tharushi (You)", 
+          "time": FieldValue.serverTimestamp(), 
           "category": categoryToSave,
           "content": content,
           "likes": 0,
@@ -52,7 +52,7 @@ class _CommunityForumPageState extends State<CommunityForumPage> {
       ),
       body: Column(
         children: [
-          // Category Filtering Tabs
+          
           SizedBox(
             height: 60,
             child: ListView.builder(
@@ -78,7 +78,7 @@ class _CommunityForumPageState extends State<CommunityForumPage> {
             ),
           ),
 
-          // --- Backend logic: Real-time Data Feed (StreamBuilder) ---
+          
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: selectedCategory == "All"
@@ -104,7 +104,7 @@ class _CommunityForumPageState extends State<CommunityForumPage> {
             ),
           ),
 
-          // Post Input Area (Enter Key එකෙන් Post වෙනවා)
+          
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -116,7 +116,7 @@ class _CommunityForumPageState extends State<CommunityForumPage> {
                 Expanded(
                   child: TextField(
                     controller: _postController,
-                    onSubmitted: (value) => _addNewPost(), // Enter key එකෙන් post වීම
+                    onSubmitted: (value) => _addNewPost(),
                     decoration: InputDecoration(
                       hintText: "Review in $selectedCategory...",
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
@@ -179,7 +179,7 @@ class PostCard extends StatelessWidget {
             ],
           ),
 
-          // --- Comments පෙන්වීම සහ අලුතින් Add කිරීම ---
+          
           if (comments.isNotEmpty)
             ...comments.map((c) => Padding(
               padding: const EdgeInsets.only(top: 4),
@@ -189,7 +189,7 @@ class PostCard extends StatelessWidget {
           TextField(
             onSubmitted: (val) {
               if (val.trim().isNotEmpty) {
-                // Backend: Array එකකට අලුත් comment එකක් එකතු කිරීම
+               
                 doc.reference.update({
                   'comments': FieldValue.arrayUnion([val.trim()])
                 });

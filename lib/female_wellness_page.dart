@@ -15,28 +15,28 @@ class FemaleWellnessPage extends StatefulWidget {
 }
 
 class _FemaleWellnessPageState extends State<FemaleWellnessPage> {
-  // Mood එක අනුව Break Time එක මෙතනට එකතු කළා
+
   final Map<String, Map<String, String>> moodData = {
     'Happy': {
       'message': 'Keep that beautiful smile! Your energy is contagious today.',
       'nutrition': 'Enjoy some colorful berries to maintain your high energy.',
       'yoga': 'Dancer Pose (Natarajasana) for balance and joy.',
       'water': 'Infuse your water with fresh mint for a refreshing kick.',
-      'break_time': '15.00', // Happy වෙලාවට විනාඩි 15ක් ඇති
+      'break_time': '15.00', 
     },
     'Sad': {
       'message': 'It is okay to feel this way. Be gentle with yourself today.',
       'nutrition': 'Warm oatmeal with walnuts can be very comforting.',
       'yoga': 'Child’s Pose (Balasana) for deep relaxation and peace.',
       'water': 'Sip on warm herbal tea to soothe your soul.',
-      'break_time': '20.00', // Sad නම් ටිකක් වැඩිපුර විවේකයක්
+      'break_time': '20.00', 
     },
     'Stressed': {
       'message': 'Take a deep breath. Let that heat transform into strength.',
       'nutrition': 'Crunchy vegetables like carrots can help release tension.',
       'yoga': 'Thunderbolt Pose (Vajrasana) to calm your nervous system.',
       'water': 'Cool cucumber water will help lower your inner heat.',
-      'break_time': '10.00', // කේන්තිය නිවන්න ඉක්මන් විවේකයක්
+      'break_time': '10.00', 
     },
     'Neutral': {
       'message': 'Focus on your breath. You are safe and you are grounded.',
@@ -50,7 +50,7 @@ class _FemaleWellnessPageState extends State<FemaleWellnessPage> {
       'nutrition': 'Banana and peanut butter for a steady energy boost.',
       'yoga': 'Legs-Up-The-Wall (Viparita Karani) to restore energy.',
       'water': 'Ice-cold water can give your system a quick wake-up call.',
-      'break_time': '30.00', // මහන්සි නම් වැඩි වෙලාවක් විවේකය ඕනේ
+      'break_time': '30.00', 
     },
   };
 
@@ -111,7 +111,7 @@ class _FemaleWellnessPageState extends State<FemaleWellnessPage> {
   String insightMessage = "";
   String yogaMessage = "";
   String waterMessage = "";
-  String breakTime = ""; // Break time එක store කරන්න Variable එකක්
+  String breakTime = ""; 
 
   @override
   void initState() {
@@ -126,7 +126,7 @@ class _FemaleWellnessPageState extends State<FemaleWellnessPage> {
       insightMessage = data['nutrition']!;
       yogaMessage = data['yoga']!;
       waterMessage = data['water']!;
-      breakTime = data['break_time']!; // Break time එක update කරනවා
+      breakTime = data['break_time']!; 
     });
   }
 
@@ -202,7 +202,7 @@ class _FemaleWellnessPageState extends State<FemaleWellnessPage> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/wellness_bg.png'),
+            image: AssetImage('assets/images/background.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -231,7 +231,7 @@ class _FemaleWellnessPageState extends State<FemaleWellnessPage> {
                         ),
                       ),
                       
-                      // මෙන්න මෙතන තමයි Take a Break Card එක එකතු කළේ
+                     
                       _buildInfoCard(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -246,12 +246,12 @@ class _FemaleWellnessPageState extends State<FemaleWellnessPage> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                               decoration: BoxDecoration(
-                                color: Colors.pinkAccent.withOpacity(0.2),
+                                color: const Color.fromARGB(255, 19, 18, 18).withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: Text(
                                 breakTime, 
-                                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.pinkAccent)
+                                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 9, 9, 9))
                               ),
                             ),
                           ],
