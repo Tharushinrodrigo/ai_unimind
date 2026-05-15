@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - update-code
 
 jobs:
   build:
@@ -17,7 +18,5 @@ jobs:
           flutter-version: stable
 
       - run: flutter pub get
-
       - run: flutter analyze
-
       - run: flutter test
