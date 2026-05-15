@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup_backend.dart'; 
-import 'login_frontend.dart'; // මෙන්න මේ import එක දැන් පාවිච්චි වෙනවා
+import 'login_frontend.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -23,7 +23,7 @@ class _SignUpPageState extends State<SignUpPage> {
       resizeToAvoidBottomInset: false, 
       body: Container(
         width: double.infinity,
-        // මුළු Screen එකේම උස ගන්නවා, එතකොට යට සුදු වෙන්නේ නැහැ
+        
         height: MediaQuery.of(context).size.height, 
         padding: const EdgeInsets.all(25),
         decoration: const BoxDecoration(
@@ -87,7 +87,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   const Text("Already have an account? "),
                   GestureDetector(
                     onTap: () {
-                      // මෙතනදී තමයි අර 'login_frontend.dart' එක පාවිච්චි වෙන්නේ
+                      
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
                     },
                     child: const Text(

@@ -12,7 +12,7 @@ class _CommunityForumPageState extends State<CommunityForumPage> {
   final List<String> categories = ["All", "Study", "Mental Health", "jobs"];
   final TextEditingController _postController = TextEditingController();
 
-  // Reviews list එකට Mental Health සහ Jobs add කළා
+  
   List<Map<String, dynamic>> posts = [
     {
       "user": "Tharushi (You)",
@@ -43,7 +43,7 @@ class _CommunityForumPageState extends State<CommunityForumPage> {
     },
   ];
 
-  // Aluth post එකක් add කරන function එක
+ 
   void _addNewPost() {
     if (_postController.text.isNotEmpty) {
       setState(() {
@@ -134,7 +134,7 @@ class _CommunityForumPageState extends State<CommunityForumPage> {
                   Expanded(
                     child: TextField(
                       controller: _postController,
-                      onSubmitted: (value) => _addNewPost(), // Enter click කළොත් post වෙනවා
+                      onSubmitted: (value) => _addNewPost(), 
                       decoration: InputDecoration(
                         hintText: "Write a review in $selectedCategory...",
                         border: InputBorder.none,

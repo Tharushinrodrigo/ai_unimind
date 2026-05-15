@@ -15,25 +15,23 @@ import 'setup_wizard.dart';
 import 'focus_page.dart'; 
 import 'settings_page.dart'; 
 
-// AIChatbotPage එක import වී නොමැති නම් එය මෙහි ඇතුළත් කරන්න
-// import 'ai_chatbot.dart'; 
+ 
 
 void main() async {
-  // 1. Flutter engine එක සහ SharedPreferences ලෑස්ති කිරීම
+ 
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 2. Firebase Initialize කිරීම
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
     print("firebase connected successfully");
-    runApp(const AiUnimindApp(isSetupComplete: false)); // Firebase සාර්ථකව සම්බන්ධ වූ පසු ඇප් එක පටන් ගන්න
-
-  // 3. Shared Preferences වලින් status එක බලනවා
+    runApp(const AiUnimindApp(isSetupComplete: false));
+ 
   final prefs = await SharedPreferences.getInstance();
   final bool isSetupComplete = prefs.getBool('isSetupComplete') ?? false;
 
-  // 4. ඇප් එක පටන් ගන්න කොටම status එක යවනවා
+ 
   runApp(
     ChangeNotifierProvider(
       create: (_) => AppState(),
@@ -53,8 +51,7 @@ class AiUnimindApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'AI Unimind',
       
-      // logic එක: Setup එක ඉවර නම් FocusPage එකට, නැත්නම් SplashScreen හෝ SetupWizard එකට.
-      // සාමාන්‍යයෙන් මුලින්ම පෙන්වන්නේ SplashScreen එකයි.
+     
       home: isSetupComplete ? const FocusPage() : const SplashScreen(), 
 
       routes: {
@@ -64,8 +61,7 @@ class AiUnimindApp extends StatelessWidget {
         '/setup': (context) => const SetupWizard(),
         '/focus': (context) => const FocusPage(),
         '/settings': (context) => const SettingsPage(),
-        // AIChatbotPage එක ඔබේ file එකක තිබිය යුතුයි
-        // '/ai_chatbot': (context) => const AIChatbotPage(),
+       
       },
     );
   }

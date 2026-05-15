@@ -23,6 +23,10 @@ dependencies:
   provider: ^6.1.2
   http: ^1.2.0 
   fl_chart: ^0.68.0
+  speech_to_text: ^6.6.0
+  flutter_tts: ^4.0.2
+  
+  
 
 dev_dependencies:
   flutter_test:
@@ -45,3 +49,6 @@ flutter:
     - assets/images/water.png
     - assets/images/spoon_pills.png
     - assets/images/yoga_pose.png
+    - assets/images/male wellness.png
+    - assets/images/background.png
+    

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// SharedPreferences පාවිච්චි කරනවා නම් backend එකේ ඒක තියෙන්න ඕනේ
+
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -281,13 +281,13 @@ class _SetupWizardState extends State<SetupWizard> {
                       curve: Curves.easeIn,
                     );
                   } else {
-                    // --- FINISH Button එකේ Logic එක මෙතැන් සිට ---
+                   
                     setState(() => _isSaving = true);
                     
                     try {
                       final user = FirebaseAuth.instance.currentUser;
                       if (user != null) {
-                        // 1. Firestore එකට දත්ත Save කිරීම (Timeout එකක් සහිතව)
+                       
                         await FirebaseFirestore.instance
                             .collection('users')
                             .doc(user.uid)
@@ -300,17 +300,16 @@ class _SetupWizardState extends State<SetupWizard> {
                               'setupComplete': true,
                               'lastUpdated': FieldValue.serverTimestamp(),
                             }, SetOptions(merge: true))
-                            .timeout(const Duration(seconds: 10)); // තත්පර 10කින් පසු Error එකක් පෙන්වයි
+                            .timeout(const Duration(seconds: 10)); 
 
-                        // 2. Local Flag එක Save කිරීම
                         final prefs = await SharedPreferences.getInstance();
                         await prefs.setBool('isSetupComplete', true);
 
                         debugPrint("✅ Firestore Success: Data saved for ${user.uid}");
 
-                        // 3. පිටුව මාරු කිරීම (අනිවාර්යයි)
+                       
                         if (mounted) {
-                          Navigator.pushReplacementNamed(context, '/focus'); // ඔබේ Main App Screen එකේ Route එක
+                          Navigator.pushReplacementNamed(context, '/focus'); 
                         }
                       } else {
                         debugPrint("❌ Error: User not logged in!");
@@ -323,7 +322,7 @@ class _SetupWizardState extends State<SetupWizard> {
                         );
                       }
                     } finally {
-                      // වැඩේ ඉවර වුණත් නැතත් Spinner එක නවත්වනවා
+                      
                       if (mounted) setState(() => _isSaving = false);
                     }
                   }

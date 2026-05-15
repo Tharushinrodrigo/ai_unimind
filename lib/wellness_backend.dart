@@ -3,9 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class WellnessBackend {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // =========================
-  // 🔹 SAVE MOOD
-  // =========================
+ 
   Future<void> saveMood({
     required String mood,
     required double value,
@@ -21,9 +19,6 @@ class WellnessBackend {
     }
   }
 
-  // =========================
-  // 🔹 GET ALL MOODS (STREAM)
-  // =========================
   Stream<QuerySnapshot> getMoods() {
     return _db
         .collection('moods')
@@ -31,9 +26,7 @@ class WellnessBackend {
         .snapshots();
   }
 
-  // =========================
-  // 🔹 GET WEEKLY MOOD DATA
-  // =========================
+
   Future<Map<String, double>> getWeeklyMoodData() async {
     Map<String, double> weeklyData = {
       "Mon": 0,
@@ -62,9 +55,7 @@ class WellnessBackend {
     return weeklyData;
   }
 
-  // =========================
-  // 🔹 SUPPORT CONTACTS
-  // =========================
+
   Future<List<Map<String, String>>> getSupportContacts() async {
     List<Map<String, String>> contacts = [];
 
@@ -85,9 +76,7 @@ class WellnessBackend {
     return contacts;
   }
 
-  // =========================
-  // 🔹 HELPER FUNCTION
-  // =========================
+
   String _getDayName(int weekday) {
     switch (weekday) {
       case 1:

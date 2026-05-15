@@ -42,14 +42,14 @@ class FocusBackend {
   ];
 
   String subjectName = "Coding";
- // Progress එක auto හැදෙන විදිහ (isDone items ගණන අනුව)
+ 
   double get progressValue {
     if (schedule.isEmpty) return 0.0;
     int completedCount = schedule.where((item) => item['isDone'] == true).length;
     return completedCount / schedule.length;
   }
 
-  // Task එකක් ටික් (tick) කළාම state එක මාරු කරන්න
+
   void toggleTask(int index) {
     schedule[index]['isDone'] = !schedule[index]['isDone'];
     saveTasks();

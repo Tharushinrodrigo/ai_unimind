@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 
-// IMPORT YOUR FOCUS PAGE
+
 import 'focus_page.dart';
 
 class MyProfilePage extends StatefulWidget {
@@ -23,7 +23,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
   bool notificationEnabled = true;
   bool partTimeEnabled = true;
 
-  // ================= IMAGE PICK =================
+
 
   Future<void> _pickImage() async {
     try {
@@ -40,7 +40,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
     }
   }
 
-  // ================= EDIT DIALOG =================
+
 
   void _showEditDialog(
     String title,

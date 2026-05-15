@@ -1,6 +1,6 @@
 
 class WellnessBackend {
-  // මූලික මූඩ් දත්ත ලැයිස්තුව
+
   final Map<String, Map<String, String>> moodDatabase = {
     'Happy': {
       'message': 'Keep that beautiful smile! Your energy is contagious today.',
@@ -39,16 +39,15 @@ class WellnessBackend {
     },
   };
 
-  // වර්තමාන මූඩ් එකට අදාළ විස්තර ගබඩා කරන variables
   String currentMessage = "";
   String currentNutrition = "";
   String currentYoga = "";
   String currentWater = "";
   String currentBreakTime = "";
 
-  // දත්ත ගණනය කර ලබාගැනීම (Finance code එකේ calculateTotals වගේමයි)
+ 
   void updateWellnessPlan(String mood) {
-    // අදාළ මූඩ් එක සොයා ගැනීම (නැතිනම් Neutral භාවිතා වේ)
+ 
     var data = moodDatabase[mood] ?? moodDatabase['Neutral']!;
 
     currentMessage = data['message']!;
@@ -58,7 +57,7 @@ class WellnessBackend {
     currentBreakTime = data['break_time']!;
   }
 
-  // AI Suggestion එකක් (Finance එකේ වගේම මූඩ් එක අනුව දෙන උපදෙසක්)
+ 
   String getAiWellnessAdvice(String mood) {
     if (mood == 'Stressed' || mood == 'Tired') {
       return "AI Notice: Your stress levels seem high. Prioritize your $currentBreakTime mins break.";

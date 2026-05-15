@@ -1,16 +1,16 @@
+import 'package:ai_unimind/chatbot_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dashboard_page.dart';
 import 'focus_page.dart' as focus;
 import 'finance_page.dart';
-import 'ai_chatbot_page.dart';
 import 'ai_assistant_page.dart';
 import 'community_forum_page.dart';
 import 'my_profile_page.dart';
 import 'wellness_backend.dart';
 
-// --- අනිවාර්යයෙන්ම මෙම පිටු දෙක import කරන්න ---
+
 import 'male_wellness_page.dart' as male;
 import 'female_wellness_page.dart';
 
@@ -39,6 +39,7 @@ class _WellnessPageState extends State<WellnessPage> {
     setState(() {
       weeklyMoodData = data;
     });
+    AppState.notifyDashboardUpdate(context);
   }
 
   @override
@@ -185,7 +186,7 @@ class _WellnessPageState extends State<WellnessPage> {
 
   void _sendToAIChatbot(String text) {
     if (text.trim().isNotEmpty) {
-      Navigator.push(context, MaterialPageRoute(builder: (c) => const ChatPage(), settings: RouteSettings(arguments: text)));
+      Navigator.push(context, MaterialPageRoute(builder: (c) => const ChatBotPage(), settings: RouteSettings(arguments: text)));
     }
   }
 
@@ -204,7 +205,7 @@ class _WellnessPageState extends State<WellnessPage> {
               _drawerItem(Icons.grid_view_rounded, "Dashboard", () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) =>  DashboardPage()))),
               _drawerItem(Icons.book, "Study Focus", () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => focus.FocusPage()))),
               _drawerItem(Icons.self_improvement, "Wellness", () => Navigator.pop(context)),
-              _drawerItem(Icons.chat_bubble_outline, "AI Chatbot", () => Navigator.push(context, MaterialPageRoute(builder: (c) => const ChatPage()))),
+              _drawerItem(Icons.chat_bubble_outline, "AI Chatbot", () => Navigator.push(context, MaterialPageRoute(builder: (c) => const ChatBotPage()))),
               _drawerItem(Icons.smart_toy_outlined, "AI Assistant", () => Navigator.push(context, MaterialPageRoute(builder: (c) => const VoiceAssistantScreen()))),
               _drawerItem(Icons.people_outline, "Community Forum", () => Navigator.push(context, MaterialPageRoute(builder: (c) => CommunityForumPage()))),
               _drawerItem(Icons.person_outline, "My Profile", () => Navigator.push(context, MaterialPageRoute(builder: (c) => const MyProfilePage()))),
@@ -216,7 +217,7 @@ class _WellnessPageState extends State<WellnessPage> {
         width: double.infinity, height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: const AssetImage('assets/images/wellness_bg.png'),
+            image: const AssetImage('assets/images/background.png'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.4), BlendMode.lighten),
           ),
@@ -258,7 +259,7 @@ class _WellnessPageState extends State<WellnessPage> {
                       ),
                     ),
 
-                    // --- දකුණු පසින් Male සහ Female Icons (AI Navigation සමඟ) ---
+                   
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -280,7 +281,7 @@ class _WellnessPageState extends State<WellnessPage> {
                         const SizedBox(height: 5),
                         GestureDetector(
                           onTap: () {
-                            // --- දැනට තෝරාගෙන ඇති මූඩ් එක මෙතනින් Pass වෙනවා ---
+                            
                             Navigator.push(
                               context, 
                               MaterialPageRoute(
@@ -375,7 +376,7 @@ class _WellnessPageState extends State<WellnessPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.deepPurple.withOpacity(0.9),
+        backgroundColor: const Color.fromARGB(255, 127, 125, 131).withOpacity(0.9),
         selectedItemColor: Colors.white,
         onTap: (index) {
           if (index == _currentIndex) return;

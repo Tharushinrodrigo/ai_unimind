@@ -7,11 +7,11 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'focus_page.dart';
 
 // ============================================================
 // DATA MODELS
@@ -72,6 +72,11 @@ class RecentActivity {
 // ============================================================
 
 class AppState extends ChangeNotifier {
+  /// Call this after updating Focus, Wellness, or Finance data to refresh dashboard.
+  static void notifyDashboardUpdate(BuildContext context) {
+    final appState = context.read<AppState>();
+    appState.loadData();
+  }
   // User Profile
   String _userName = 'User';
   String get userName => _userName;
@@ -289,7 +294,7 @@ class _DashboardPageState extends State<DashboardPage>
         // Background image
         Positioned.fill(
           child: Image.asset(
-            'assets/images/dashboard_bg.jpg',
+            'assets/images/background.png',
             fit: BoxFit.cover,
             alignment: Alignment.center,
           ),
@@ -411,27 +416,41 @@ class _DashboardPageState extends State<DashboardPage>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      // Back icon
+                      Row(
                         children: [
-                          Text(
-                            greeting,
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: 0.5,
-                            ),
+                          IconButton(
+                            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 22),
+                            onPressed: () {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (_) => const FocusPage()),
+                              );
+                            },
+                            tooltip: 'Back to Focus',
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Hello, ${state.userName} 👋',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 26,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: -0.5,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                greeting,
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Hello, ${state.userName} 👋',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: -0.5,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -501,9 +520,9 @@ class _DashboardPageState extends State<DashboardPage>
                   // Streak + productivity quick chips
                   Row(
                     children: [
-                      _headerChip(Icons.local_fire_department, '${state.streakDays}d streak', const Color(0xFFFF9500)),
+                      _headerChip(Icons.local_fire_department, '24${state.streakDays}d streak', const Color(0xFFFF9500)),
                       const SizedBox(width: 10),
-                      _headerChip(Icons.bolt, '${state.productivityScore.round()}% today', const Color(0xFF30D158)),
+                      _headerChip(Icons.bolt, 'Start to new plan today', const Color(0xFF30D158)),
                     ],
                   ),
                 ],
@@ -1649,44 +1668,4 @@ class _QuickAccessCardState extends State<_QuickAccessCard>
       ),
     );
   }
-}
-
-// ============================================================
-// APP ENTRY POINT EXAMPLE
-// ============================================================
-//
-// void main() {
-//   runApp(
-//     ChangeNotifierProvider(
-//       create: (_) => AppState(),
-//       child: MaterialApp(
-//         title: 'Wellness App',
-//         themeMode: ThemeMode.system,
-//         theme: ThemeData(
-//           useMaterial3: true,
-//           colorSchemeSeed: const Color(0xFF6C63FF),
-//           brightness: Brightness.light,
-//         ),
-//         darkTheme: ThemeData(
-//           useMaterial3: true,
-//           colorSchemeSeed: const Color(0xFF6C63FF),
-//           brightness: Brightness.dark,
-//         ),
-//         home: const DashboardPage(),
-//       ),
-//     ),
-//   );
-// }
-//
-// ============================================================
-// PUBSPEC.YAML DEPENDENCIES
-// ============================================================
-//
-// dependencies:
-//   flutter:
-//     sdk: flutter
-//   fl_chart: ^0.68.0
-//   provider: ^6.1.2
-//   shared_preferences: ^2.3.2
-//
-// ============================================================
+    }

@@ -11,12 +11,12 @@ class ForgotPasswordBackend {
     }
 
     try {
-      // Firebase එකෙන් Reset link එක Email එකට යවනවා
+      
       await _auth.sendPasswordResetEmail(email: email.trim());
       
       _showMessage("Password reset link sent! Check your email.", context);
       
-      // තත්පර 2කට පස්සේ ආපහු Login පේජ් එකට යනවා
+      
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.pop(context);
       });

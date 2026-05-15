@@ -5,15 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
-// ─────────────────────────────────────────────
-//  IMPORTANT: Store your API key securely.
-// ─────────────────────────────────────────────
-const String _geminiApiKey =
-    String.fromEnvironment('GEMINI_KEY', defaultValue: 'AIzaSyB4IIQE4tXHM8rtilEil6yMr1cXNPt7Hzk');
 
-// ─────────────────────────────────────────────
-//  Mood Data Model
-// ─────────────────────────────────────────────
+const String _geminiApiKey =
+    String.fromEnvironment('GEMINI_KEY', defaultValue: 'AIzaSyARbFO-T0bucxT0OzFwVkYrfkY709sJfnQ');
+
 class MoodData {
   final String emoji;
   final String mainMessage;
@@ -174,7 +169,7 @@ class _MaleWellnessPageState extends State<MaleWellnessPage> {
     try {
       final prompt = 'Give a short (2 sentences max) motivational wellness tip for a male named $name who is feeling $mood today. Focus on strength and consistency.';
       final response = await http.post(
-        Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$_geminiApiKey'),
+        Uri.parse('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$_geminiApiKey'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'contents': [{'parts': [{'text': prompt}]}]}),
       );
@@ -219,9 +214,9 @@ class _MaleWellnessPageState extends State<MaleWellnessPage> {
           return Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070'), // Gym Background
+                image: AssetImage('assets/images/background.png'), // Gym Background
                 fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken),
+                colorFilter: ColorFilter.mode(Color.fromARGB(115, 12, 12, 12), BlendMode.darken),
               ),
             ),
             child: SafeArea(
@@ -248,7 +243,7 @@ class _MaleWellnessPageState extends State<MaleWellnessPage> {
                       ],
                     ),
                   ),
-                  // _buildBottomNav(context),
+                
                 ],
               ),
             ),
@@ -258,7 +253,7 @@ class _MaleWellnessPageState extends State<MaleWellnessPage> {
     );
   }
 
-  // මෙහි onPressed කොටස '/wellness' වෙත යන ලෙස සකසා ඇත.
+
   Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -269,7 +264,7 @@ class _MaleWellnessPageState extends State<MaleWellnessPage> {
           ),
           IconButton(
   icon: const Icon(Icons.arrow_back), 
-  onPressed: () => Navigator.pop(context) // මේ කේතය මගින් කලින් පිටුවට යයි
+  onPressed: () => Navigator.pop(context)
 ),
           const Text('MALE WELLNESS', 
             style: TextStyle(
@@ -332,7 +327,7 @@ class _MaleWellnessPageState extends State<MaleWellnessPage> {
   Widget _buildExerciseCard(MoodData moodData) {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: Colors.white.withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(color: const Color.fromARGB(255, 15, 15, 15).withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
       child: Column(
         children: [
           Row(
@@ -341,8 +336,8 @@ class _MaleWellnessPageState extends State<MaleWellnessPage> {
               const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Exercise Now!', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-                  Text('Tap time to start', style: TextStyle(fontSize: 11, color: Colors.white70)),
+                  Text('Exercise Now!', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 16, 16, 16))),
+                  Text('Tap time to start', style: TextStyle(fontSize: 11, color: Color.fromARGB(179, 12, 12, 12))),
                 ],
               ),
               GestureDetector(
@@ -433,14 +428,14 @@ class _MaleWellnessPageState extends State<MaleWellnessPage> {
       ),
     );
   }
-  Widget _navIcon(BuildContext context, String label, String route, {bool active = false}) {
+    Widget _navIcon(BuildContext context, String label, String route, {bool active = false}) {
     return GestureDetector(
       onTap: () {
         if (!active) {
           Navigator.pushReplacementNamed(context, route);
         }
       },
-      child: Text(label, style: TextStyle(color: active ? Colors.purpleAccent : Colors.white60, fontWeight: active ? FontWeight.bold : FontWeight.normal)),
+      child: Text(label, style: TextStyle(color: active ? const Color.fromARGB(255, 233, 228, 234) : Colors.white60, fontWeight: active ? FontWeight.bold : FontWeight.normal)),
     );
   }
 }

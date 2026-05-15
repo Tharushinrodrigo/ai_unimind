@@ -15,10 +15,10 @@ class LoginBackend {
       _showError("Login Successful!", context);
       _showError("Login Successful!", context);
 
-     // මේ පේළිය අනිවාර්යයෙන්ම දාන්න
+    
       Navigator.pushReplacementNamed(context, '/setup');
       
-      // මෙතනින් පස්සේ Home Page එකට යන්න පුළුවන්
+      
     
     } on FirebaseAuthException catch (e) {
       _showError(e.message ?? "Authentication failed", context);

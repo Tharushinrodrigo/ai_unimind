@@ -1,3 +1,4 @@
+import 'package:ai_unimind/chatbot_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart'; 
@@ -5,7 +6,6 @@ import 'finance_backend.dart';
 import 'focus_page.dart' as focus;
 import 'dashboard_page.dart';
 import 'wellness_page.dart';
-import 'ai_chatbot_page.dart';
 import 'ai_assistant_page.dart';
 import 'community_forum_page.dart';
 import 'my_profile_page.dart';
@@ -20,9 +20,36 @@ class _FinancePageState extends State<FinancePage> {
   final FinanceBackend _finBackend = FinanceBackend();
   int _currentIndex = 2;
 
-  // --- Functions ---
+  // --- අලුතින් එකතු කළ Salary Edit Dialog එක ---
+  void _editSalaryDialog() {
+    TextEditingController salaryCtrl = TextEditingController(text: _finBackend.salary.toString());
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Edit Monthly Salary"),
+        content: TextField(
+          controller: salaryCtrl,
+          decoration: const InputDecoration(labelText: "Salary Amount (RS)"),
+          keyboardType: TextInputType.number,
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                _finBackend.salary = double.tryParse(salaryCtrl.text) ?? 0;
+                _finBackend.calculateTotals();
+              });
+              AppState.notifyDashboardUpdate(context);
+              Navigator.pop(context);
+            },
+            child: const Text("Update"),
+          ),
+        ],
+      ),
+    );
+  }
 
-  // 1. Expense එකක් Edit හෝ Delete කිරීම
   void _editExpenseDialog(String name, double amount) {
     TextEditingController nameCtrl = TextEditingController(text: name);
     TextEditingController amountCtrl = TextEditingController(text: amount.toString());
@@ -42,6 +69,7 @@ class _FinancePageState extends State<FinancePage> {
             onPressed: () { 
               setState(() => _finBackend.monthlyExpenses.remove(name)); 
               _finBackend.calculateTotals(); 
+              AppState.notifyDashboardUpdate(context);
               Navigator.pop(context); 
             }, 
             child: const Text("Delete", style: TextStyle(color: Colors.red))
@@ -53,6 +81,7 @@ class _FinancePageState extends State<FinancePage> {
                 _finBackend.monthlyExpenses[nameCtrl.text] = double.tryParse(amountCtrl.text) ?? 0; 
                 _finBackend.calculateTotals(); 
               }); 
+              AppState.notifyDashboardUpdate(context);
               Navigator.pop(context); 
             }, 
             child: const Text("Save")
@@ -62,7 +91,6 @@ class _FinancePageState extends State<FinancePage> {
     );
   }
 
-  // 2. අලුත් Expense එකක් එකතු කිරීම
   void _addExpenseDialog() {
     TextEditingController nameCtrl = TextEditingController();
     TextEditingController amountCtrl = TextEditingController();
@@ -85,6 +113,7 @@ class _FinancePageState extends State<FinancePage> {
                 _finBackend.monthlyExpenses[nameCtrl.text] = double.tryParse(amountCtrl.text) ?? 0; 
                 _finBackend.calculateTotals(); 
               }); 
+              AppState.notifyDashboardUpdate(context);
               Navigator.pop(context); 
             }, 
             child: const Text("Add")
@@ -94,7 +123,6 @@ class _FinancePageState extends State<FinancePage> {
     );
   }
 
-  // 3. Savings Goal එක ඇතුළත් කිරීම
   void _setGoalsDialog() {
     TextEditingController goalCtrl = TextEditingController(text: _finBackend.savingsGoal.toString());
     showDialog(
@@ -210,13 +238,13 @@ class _FinancePageState extends State<FinancePage> {
           child: ListView(
             children: [
               const DrawerHeader(child: Text("UniMind", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))),
-              _drawerItem(Icons.dashboard, "Dashboard", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  DashboardPage())); }),
-              _drawerItem(Icons.book, "Study Focus", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>focus.FocusPage())); }),
-                  _drawerItem(Icons.attach_money, "Finance", () { Navigator.pop(context); }),
+              _drawerItem(Icons.dashboard, "Dashboard", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashboardPage())); }),
+              _drawerItem(Icons.book, "Study Focus", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => focus.FocusPage())); }),
+              _drawerItem(Icons.attach_money, "Finance", () { Navigator.pop(context); }),
               _drawerItem(Icons.self_improvement, "Wellness", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const WellnessPage())); }),
-              _drawerItem(Icons.chat_bubble_outline, "AI Chatbot", () { Navigator.pop(context); Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChatPage ())); }),
+              _drawerItem(Icons.chat_bubble_outline, "AI Chatbot", () { Navigator.pop(context); Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChatBotPage())); }),
               _drawerItem(Icons.smart_toy_outlined, "AI Assistant", () { Navigator.pop(context); Navigator.push(context, MaterialPageRoute(builder: (context) => const VoiceAssistantScreen())); }),
-              _drawerItem(Icons.people_outline, "Community Forum", () { Navigator.pop(context); Navigator.push(context, MaterialPageRoute(builder: (context) =>  CommunityForumPage())); }),
+              _drawerItem(Icons.people_outline, "Community Forum", () { Navigator.pop(context); Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityForumPage())); }),
               _drawerItem(Icons.person_outline, "My Profile", () { Navigator.pop(context); Navigator.push(context, MaterialPageRoute(builder: (context) => const MyProfilePage())); }),
             ],
           ),
@@ -224,7 +252,7 @@ class _FinancePageState extends State<FinancePage> {
       ),
       body: Stack(
         children: [
-          Positioned.fill(child: Image.asset('assets/images/focus.png', fit: BoxFit.cover)),
+          Positioned.fill(child: Image.asset('assets/images/background.png', fit: BoxFit.cover)),
           Positioned.fill(child: Container(color: Colors.white.withOpacity(0.3))),
           SafeArea(
             child: SingleChildScrollView(
@@ -275,7 +303,14 @@ class _FinancePageState extends State<FinancePage> {
           const SizedBox(height: 10),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [_indicator(Colors.redAccent, "Spent"), const SizedBox(width: 20), _indicator(Colors.blueAccent, "Remaining")]),
           const Divider(height: 25),
-          _statRow("Salary", "RS.${_finBackend.salary}"),
+          
+          // --- මෙහිදී Salary පේළිය InkWell එකකින් wrap කර ඇත ---
+          InkWell(
+            onTap: _editSalaryDialog,
+            borderRadius: BorderRadius.circular(8),
+            child: _statRow("Salary (Tap to Edit)", "RS.${_finBackend.salary}"),
+          ),
+          
           _statRow("Budgeted", "RS.${_finBackend.budgetTotal}"),
           _statRow("Spent", "RS.${_finBackend.spentTotal}", color: Colors.red),
         ]),
@@ -306,7 +341,6 @@ class _FinancePageState extends State<FinancePage> {
 
   Widget _buildTipCard() => Card(color: Colors.amber[50]!.withOpacity(0.8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), child: ListTile(leading: const Icon(Icons.lightbulb, color: Colors.amber), title: Text(_finBackend.aiSuggestion, style: const TextStyle(fontWeight: FontWeight.bold))));
 
-  // 4. Expense List Card එකේ item එකක් click කරලා edit කරන්න පුළුවන් කළා
   Widget _buildExpenseListCard() {
     return Card(
       color: Colors.white.withOpacity(0.7),
@@ -322,14 +356,13 @@ class _FinancePageState extends State<FinancePage> {
           child: ListTile(
             title: Text(e.key, style: const TextStyle(fontWeight: FontWeight.w600)), 
             trailing: Text("RS.${e.value}", style: const TextStyle(fontWeight: FontWeight.bold)), 
-            onTap: () => _editExpenseDialog(e.key, e.value) // මෙතනින් Edit Dialog එක open වෙනවා
+            onTap: () => _editExpenseDialog(e.key, e.value),  
           ),
         )),
       ]),
     );
   }
 
-  // 5. Financial Insights සම්පූර්ණ කළා
   Widget _buildInsightsCard() {
     double savings = _finBackend.salary - _finBackend.spentTotal;
     if (savings < 0) savings = 0;
@@ -356,9 +389,9 @@ class _FinancePageState extends State<FinancePage> {
               show: true, 
               bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, getTitlesWidget: (value, meta) {
                 switch (value.toInt()) {
-                  case 0: return const Text('Sal', style: TextStyle(fontSize: 10)); // Salary
-                  case 1: return const Text('Bud', style: TextStyle(fontSize: 10)); // Budgeted
-                  case 2: return const Text('Spn', style: TextStyle(fontSize: 10)); // Spent
+                  case 0: return const Text('Sal', style: TextStyle(fontSize: 10)); 
+                  case 1: return const Text('Bud', style: TextStyle(fontSize: 10)); 
+                  case 2: return const Text('Spn', style: TextStyle(fontSize: 10)); 
                   default: return const Text('');
                 }
               }))
@@ -386,7 +419,7 @@ class _FinancePageState extends State<FinancePage> {
     );
   }
 
-  Widget _statRow(String label, String val, {Color color = Colors.black}) => Padding(padding: const EdgeInsets.symmetric(vertical: 4), child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text(label), Text(val, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 15))]));
+  Widget _statRow(String label, String val, {Color color = Colors.black}) => Padding(padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8), child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text(label), Text(val, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 15))]));
 
   Widget _buildBottomNav() => BottomNavigationBar(
       currentIndex: _currentIndex,

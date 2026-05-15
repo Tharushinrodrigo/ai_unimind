@@ -3,12 +3,12 @@ import 'focus_backend.dart';
 import 'dashboard_page.dart';
 import 'wellness_page.dart';
 import 'finance_page.dart';
-import 'ai_chatbot_page.dart';
 import 'ai_assistant_page.dart';
 import 'community_forum_page.dart';
 import 'my_profile_page.dart';
 import 'focus_history_page.dart';
 import 'help_support_page.dart';
+import 'chatbot_page.dart';
 
 class FocusPage extends StatefulWidget {
   const FocusPage({super.key});
@@ -81,6 +81,7 @@ class _FocusPageState extends State<FocusPage> {
         actions: [
           ElevatedButton(onPressed: () {
             setState(() => _backend.updateSubject(nameCtrl.text, tempProgress));
+            AppState.notifyDashboardUpdate(context);
             Navigator.pop(context);
           }, child: const Text("Save")),
         ],
@@ -145,10 +146,12 @@ class _FocusPageState extends State<FocusPage> {
         actions: [
           ElevatedButton(onPressed: () {
             setState(() => _backend.updateSchedule(index, timeCtrl.text, taskCtrl.text));
+            AppState.notifyDashboardUpdate(context);
             Navigator.pop(context);
           }, child: const Text("Save")),
           ElevatedButton(onPressed: () {
             setState(() => _backend.removeScheduleItem(index));
+            AppState.notifyDashboardUpdate(context);
             Navigator.pop(context);
           }, style: ElevatedButton.styleFrom(backgroundColor: Colors.red), child: const Text("Delete")),
         ],
@@ -174,6 +177,7 @@ class _FocusPageState extends State<FocusPage> {
           ElevatedButton(onPressed: () {
             if (timeCtrl.text.isNotEmpty && taskCtrl.text.isNotEmpty) {
               setState(() => _backend.addScheduleItem(timeCtrl.text, taskCtrl.text));
+              AppState.notifyDashboardUpdate(context);
               Navigator.pop(context);
             }
           }, child: const Text("Add")),
@@ -213,7 +217,7 @@ class _FocusPageState extends State<FocusPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true, // Image එක AppBar එකට යටින් යන්න
+      extendBodyBehindAppBar: true,
       drawer: Drawer(
         child: Container(
           color: const Color(0xFFB5B2FF),
@@ -224,7 +228,7 @@ class _FocusPageState extends State<FocusPage> {
               _drawerItem(Icons.book, "Study Focus", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const FocusPage())); }),
               _drawerItem(Icons.attach_money, "Finance", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const FinancePage())); }),
               _drawerItem(Icons.self_improvement, "Wellness", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const WellnessPage())); }),
-              _drawerItem(Icons.chat_bubble_outline, "AI Chatbot", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ChatPage())); }),
+             _drawerItem(Icons.chat_bubble_outline, "AI Chatbot", () { Navigator.pop(context); Navigator.push(context, MaterialPageRoute(builder: (context)=> const ChatBotPage())); }),
               _drawerItem(Icons.smart_toy_outlined, "AI Assistant", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const VoiceAssistantScreen())); }),
               _drawerItem(Icons.groups_outlined, "Community Forum", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CommunityForumPage())); }),
               _drawerItem(Icons.person_outline, "My Profile", () { Navigator.pop(context); Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyProfilePage())); }),
@@ -243,20 +247,20 @@ class _FocusPageState extends State<FocusPage> {
         centerTitle: true,
         actions: [IconButton(icon: const Icon(Icons.settings_outlined, color: Colors.black), onPressed: _openSettings)],
       ),
-      // මෙතන තමයි Background Image එක දාන්නේ
+     
       body: Stack(
         children: [
-          // 1. Background Image එක
+        
           Positioned.fill(
             child: Image.asset(
-              'assets/images/focus.png', // ඔයාගේ රූපයේ නම මෙතන තියෙනවා
-              fit: BoxFit.cover, // Screen එක පුරාම පිරෙන්න
+              'assets/images/background.png', 
+              fit: BoxFit.cover, 
             ),
           ),
-          // 2. Content එක කියවන්න ලේසි වෙන්න ලාවට සුදු පාට Layer එකක් (Optional)
+         
           Positioned.fill(child: Container(color: Colors.white.withOpacity(0.3))),
           
-          // 3. ප්‍රධාන Content එක
+          
           SafeArea(
             child: _selectedNavIndex == 1 ? _buildStudyContent() : Center(child: Text("Page: $_selectedNavIndex")),
           ),
@@ -267,7 +271,7 @@ class _FocusPageState extends State<FocusPage> {
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black45,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color(0xFFB5B2FF).withOpacity(0.8), // ලාවට විනිවිද පේන ලෙස
+        backgroundColor: const Color(0xFFB5B2FF).withOpacity(0.8), 
         onTap: (i) {
           if (i == 4) { _showMoreMenu(); return; }
           if (i == 0) { Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => DashboardPage())); return; }
